@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heat Index</title>
+    <script type="application/javascript">
+        test()
+
+        function compute(temp, humidity) {
+            const c1 = 0.363_445_176;
+            const c2 = 0.988_622_465;
+            const c3 = 4.777_114_035
+            const c4 = -0.114_037_667;
+            const c5 = -8.502_08 * Math.pow(10, -4);
+            const c6 = -2.071_619_8 * Math.pow(10, -2);
+            const c7 = 6.876_78 * Math.pow(10, -4);
+            const c8 = 2.749_54 * Math.pow(10, -4);
+            const c9 = 0;
+            const T = temp;
+            const R = humidity;
+            const T2 = Math.pow(T, 2);
+            const R2 = Math.pow(R, 2);
+
+            return c1
+                + c2 * T
+                + c3 * R
+                + c4 * T * R
+                + c5 * T2
+                + c6 * R2
+                + c7 * T2 * R
+                + c8 * T * R2
+                + c9 * T2 * R2
+
+        }
+        function update() {
+            const temperature = parseFloat(document.getElementById("temperature-input").value);
+            const humidity = parseFloat(document.getElementById("humidity-input").value);
+            const heatIndex = compute(temperature, humidity);
+            const output = document.getElementById("heat-index-output");
+            if (!output) {
+                const elem = document.createElement('p')
+                elem.id = "heat-index-output"
+                document.body.appendChild(elem)
+            }
+            document.getElementById("heat-index-output").innerHTML = `Hear Index: ${heatIndex}`;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector("button").addEventListener("click", update);
+        });
+
+        function test() {
+            const cases = [
+                // [35, 60, 45.6],
+                // [29.4, 40, 30]
+                [34, 60, 43]
+            ]
+            for (const [temp, hu, expected] of cases) {
+                const actual = compute(temp, hu)
+                if (Math.abs(actual - expected) > 0.1) {
+                    console.log(`Failed for ${temp} and ${hu} expected ${expected} but got ${actual}`)
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<label for="temperature-input">Temperature: </label><input type="number" id="temperature-input" value="35">
+<br/>
+<label for="humidity-input">Humidity: </label><input type="number" id="humidity-input" value="60">
+<br/>
+<button>Compute</button>
+<br/>
+</body>
+</html>
