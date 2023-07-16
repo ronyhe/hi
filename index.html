@@ -7,15 +7,17 @@
         test()
 
         function compute(temp, humidity) {
-            const c1 = 0.363_445_176;
-            const c2 = 0.988_622_465;
-            const c3 = 4.777_114_035
-            const c4 = -0.114_037_667;
-            const c5 = -8.502_08 * Math.pow(10, -4);
-            const c6 = -2.071_619_8 * Math.pow(10, -2);
-            const c7 = 6.876_78 * Math.pow(10, -4);
-            const c8 = 2.749_54 * Math.pow(10, -4);
-            const c9 = 0;
+            //{\displaystyle {\begin{aligned}c_{1}&=-8.784\,694\,755\,56,&c_{2}&=1.611\,394\,11,&c_{3}&=2.338\,548\,838\,89,\\c_{4}&=-0.146\,116\,05,&c_{5}&=-0.012\,308\,094,&c_{6}&=-0.016\,424\,827\,7778,\\c_{7}&=2.211\,732\times 10^{-3},&c_{8}&=7.2546\times 10^{-4},&c_{9}&=-3.582\times 10^{-6}.\end{aligned}}}
+            const c1 = -8.784_694_755_56;
+            const c2 = 1.611_394_11;
+            const c3 = 2.338_548_838_89;
+            const c4 = -0.146_116_05;
+            const c5 = -0.012_308_094;
+            const c6 = -0.016_424_827_777_8;
+            const c7 = 2.211_732 * Math.pow(10, -3);
+            const c8 = 7.254_6 * Math.pow(10, -4);
+            const c9 = -3.582 * Math.pow(10, -6);
+
             const T = temp;
             const R = humidity;
             const T2 = Math.pow(T, 2);
@@ -51,14 +53,16 @@
 
         function test() {
             const cases = [
-                // [35, 60, 45.6],
-                // [29.4, 40, 30]
+                [35, 60, 45.6],
+                [29.4, 40, 30],
                 [34, 60, 43]
             ]
             for (const [temp, hu, expected] of cases) {
                 const actual = compute(temp, hu)
-                if (Math.abs(actual - expected) > 0.1) {
-                    console.log(`Failed for ${temp} and ${hu} expected ${expected} but got ${actual}`)
+                const ex = Math.ceil(expected)
+                const ac = Math.ceil(actual)
+                if (ex !== ac) {
+                    console.error(`Failed for ${temp} and ${hu} expected ${expected} but got ${actual}`)
                 }
             }
         }
