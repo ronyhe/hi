@@ -39,14 +39,26 @@
             const temperature = parseFloat(document.getElementById("temperature-input").value);
             const humidity = parseFloat(document.getElementById("humidity-input").value);
             const heatIndex = compute(temperature, humidity);
-            const output = document.getElementById("heat-index-output");
+            let output = document.getElementById("heat-index-output");
             if (!output) {
                 const elem = document.createElement('p')
                 elem.id = "heat-index-output"
                 document.body.appendChild(elem)
+                output = document.getElementById("heat-index-output");
             }
-            document.getElementById("heat-index-output").innerHTML = `Heat Index: ${heatIndex.toPrecision(4)}`;
+            output.innerHTML = `Heat Index: ${heatIndex.toPrecision(4)}`;
+            const setColor = color => {
+                output.style.color = color
+            }
+            if (heatIndex >= 40.1) {
+                setColor('red')
+            } else if (heatIndex >= 34) {
+                setColor('orange')
+            } else {
+                setColor('green')
+            }
         }
+
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelector("button").addEventListener("click", update);
         });
